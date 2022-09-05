@@ -4,6 +4,24 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pandas = "==1.4.2"
+lightgbm = "==3.3.2"
+mlflow = "==1.25.1"
+boto3 = "*"
+toolz = "*"
+numpy = "==1.22.3"
+environs = "*"
+python-dotenv = "*"
+scikit-learn = "==1.0.2"
+pylama = "*"
+mypy = "*"
+flake8 = "*"
+pandas-stubs = "*"
+loguru = "==0.6.0"
+optuna = "==2.10.0"
+statsmodels = "*"
+category-encoders = "*"
+protobuf = "==3.20.1"
 
 [dev-packages]
 
