@@ -6,4 +6,4 @@ env = Env()
 
 
 class Settings:
-    pass
+    MODEL_NAME = env.str('MODEL_NAME', 'dph-dopamine')
