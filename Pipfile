@@ -22,6 +22,9 @@ optuna = "==2.10.0"
 statsmodels = "*"
 category-encoders = "*"
 protobuf = "==3.20.1"
+fastapi = "*"
+routers = "*"
+uvicorn = "*"
 
 [dev-packages]
 
