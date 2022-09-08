@@ -124,17 +124,6 @@ class TrainPipe:
         with open(self.model_path, 'wb+') as f:
             pickle.dump(self.pipeline, f)
 
-    # def train_model(self, preprocessing_pipe: PreprocessingPipe, feature_builder: FeatureBuilder) -> None:
-    #     warnings.filterwarnings("ignore")
-    #     raw_data = pd.read_excel('../../data/raw/data.xlsx')
-    #     y = raw_data['dopamine'].values.ravel()
-    #     X = raw_data.drop(columns=['dopamine'])
-    #     interim_data = preparing_pipeline(df=X)
-    #     processed_data = preprocessing_pipe.get_data(X=interim_data, y=y)
-    #     features = feature_builder.get_features(X=processed_data, y=y)
-    #     best_params, cv_score = self.find_best_params(X=features, y=y, n_iter=5)
-    #     self.fit(X=features, y=y, best_params=best_params)
-
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
@@ -142,18 +131,18 @@ if __name__ == "__main__":
     feature_builder = FeatureBuilder()
 
     raw_data = pd.read_excel('../../data/raw/data.xlsx')
-    y = raw_data['dopamine'].values.ravel()
+    y = np.array(raw_data['dopamine'].values.ravel())
     X = raw_data.drop(columns=['dopamine'])
     interim_data = preparing_pipeline(df=X)
     processed_data = preprocessing_pipe.get_data(X=interim_data)
-    # features = feature_builder.get_features(X=processed_data)
-    #
-    # train_pipe = TrainPipe(model_path='../../models')
-    # best_params, cv_score = train_pipe.find_best_params(X=features, y=y, n_iter=5)
-    #
-    # train_pipe.fit(X=features, y=y, best_params=best_params)
-    #
-    # with open('../../models/pipeline.pickle', 'rb') as f:
-    #     model = pickle.load(f)
-    #
-    # print(model.predict(features))
+    features = feature_builder.get_features(X=processed_data)
+
+    train_pipe = TrainPipe(model_path='../../models')
+    best_params, cv_score = train_pipe.find_best_params(X=features, y=y, n_iter=5)
+
+    train_pipe.fit(X=features, y=y, best_params=best_params)
+
+    with open('../../models/pipeline.pickle', 'rb') as f:
+        model = pickle.load(f)
+
+    print(model.predict(features))
