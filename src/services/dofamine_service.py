@@ -64,6 +64,6 @@ class DofamineService:
         processed_data = self.preprocessing_pipe.get_data(X=X)
         features = self.feature_builder.get_features(X=processed_data)
         test_scores = self.get_test_scores(features=features)
-        dopamine_value = self.model.predict(features)
+        dopamine_value = data.get('dopamine') if data.get('dopamine') else self.model.predict(features)
         output = ServiceOutput(test_scores=test_scores, dopamine=dopamine_value)
         return output
