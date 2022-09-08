@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from loguru import logger
 from sklearn.pipeline import Pipeline, FeatureUnion
@@ -25,8 +24,8 @@ class ScoreTransformer(BaseTransformer):
         return data.replace(self._mapper)
 
 
-class PreprocessingPipeline(BasePipeline):
-    def get_data(self, X: pd.DataFrame, y: np.ndarray | None = None) -> pd.DataFrame:
+class PreprocessingPipe(BasePipeline):
+    def get_data(self, X: pd.DataFrame) -> pd.DataFrame:
         X_copy = X.copy()
         score_pipeline = Pipeline(
             steps=[
@@ -57,7 +56,7 @@ class PreprocessingPipeline(BasePipeline):
                 ('psycho_score_pipeline', psycho_score_pipeline),
             ]
         )
-        data_transformation.fit(X=X_copy, y=y)
+        data_transformation.fit(X=X_copy)
         data_values = data_transformation.transform(X_copy)
 
         self.feature_transformation = data_transformation
@@ -68,10 +67,3 @@ class PreprocessingPipeline(BasePipeline):
         logger.info(f'Data transformation finished columns:{data.columns}')
 
         return data
-
-
-if __name__ == "__main__":
-    df = pd.read_excel('../../data/interim/data.xlsx')
-    preprocessing_pipeline = PreprocessingPipeline()
-    data = preprocessing_pipeline.get_data(X=df)
-    data.to_excel('../../data/processed/data.xlsx', index=False)
